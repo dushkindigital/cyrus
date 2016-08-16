@@ -1,0 +1,1 @@
+c:\projects\Cyrus\Cyrus\bin\Debug\Cyrus.exe.config
