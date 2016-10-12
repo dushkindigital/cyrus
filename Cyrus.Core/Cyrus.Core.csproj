@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F9EB2D7A-0CB7-4BC7-87FB-75906CF1D18E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Cyrus.Core</RootNamespace>
+    <AssemblyName>Cyrus.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MediatR, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MediatR.2.1.0\lib\net45\MediatR.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DomainModels\Alert.cs" />
+    <Compile Include="DomainModels\AlertType.cs" />
+    <Compile Include="DomainModels\Bases\BaseEntity.cs" />
+    <Compile Include="DomainModels\Identity\ApplicationAuthenticationDescription.cs" />
+    <Compile Include="DomainModels\Identity\ApplicationExternalLoginInfo.cs" />
+    <Compile Include="DomainModels\Identity\ApplicationIdentityResult.cs" />
+    <Compile Include="DomainModels\Identity\ApplicationMessage.cs" />
+    <Compile Include="DomainModels\Identity\ApplicationRole.cs" />
+    <Compile Include="DomainModels\Identity\ApplicationUserClaim.cs" />
+    <Compile Include="DomainModels\Identity\ApplicationUserLogin.cs" />
+    <Compile Include="DomainModels\Identity\ApplicationUserLoginInfo.cs" />
+    <Compile Include="DomainModels\Identity\ApplicationUserRole.cs" />
+    <Compile Include="DomainModels\Identity\AppUser.cs" />
+    <Compile Include="DomainModels\ProfileAttribute.cs" />
+    <Compile Include="DomainModels\ProfileAttributeType.cs" />
+    <Compile Include="DomainModels\Tribe.cs" />
+    <Compile Include="DomainModels\TribeMember.cs" />
+    <Compile Include="DomainModels\TribeRequest.cs" />
+    <Compile Include="DomainServices\Bases\BaseRequest.cs" />
+    <Compile Include="DomainServices\Command\CreateTribeCommand.cs" />
+    <Compile Include="DomainServices\Command\RemoveTribeCommand.cs" />
+    <Compile Include="DomainServices\Command\UpdateTribeCommand.cs" />
+    <Compile Include="DomainServices\Decorators\IAsyncPreRequestHandler.cs" />
+    <Compile Include="DomainServices\Decorators\IPreRequestHandler.cs" />
+    <Compile Include="DomainServices\Extensions\QueryableExtension.cs" />
+    <Compile Include="DomainServices\IProcedure.cs" />
+    <Compile Include="DomainServices\IDatabaseService.cs" />
+    <Compile Include="DomainServices\PaginatedList.cs" />
+    <Compile Include="DomainServices\QueryableArgs\IFilterQuery.cs" />
+    <Compile Include="DomainServices\QueryableArgs\IIncludeQuery.cs" />
+    <Compile Include="DomainServices\QueryableArgs\IOrderByQuery.cs" />
+    <Compile Include="DomainServices\QueryableArgs\IPaginateQuery.cs" />
+    <Compile Include="DomainServices\QueryableArgs\ITakeQuery.cs" />
+    <Compile Include="DomainServices\Query\AutoMapperQuery.cs" />
+    <Compile Include="DomainServices\Query\AutoMapperQueryAsync.cs" />
+    <Compile Include="DomainServices\Query\GenericQuery.cs" />
+    <Compile Include="DomainServices\Query\GenericQueryAsync.cs" />
+    <Compile Include="DomainServices\Query\PaginateQuery.cs" />
+    <Compile Include="DomainServices\Query\PaginateQueryAsync.cs" />
+    <Compile Include="DomainServices\RecoverableException.cs" />
+    <Compile Include="DomainServices\ServiceException.cs" />
+    <Compile Include="DomainServices\UnrecoverableException.cs" />
+    <Compile Include="Extensions\ListExtensions.cs" />
+    <Compile Include="Extensions\QueryableExtensions.cs" />
+    <Compile Include="Identity\IApplicationRoleManager.cs" />
+    <Compile Include="Identity\IApplicationUserManager.cs" />
+    <Compile Include="Identity\ISecureTokenFormatter.cs" />
+    <Compile Include="Identity\SignInStatus.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DomainServices\Dto\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E303D769-8BDB-47AC-9DE8-C25506992B0A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Cyrus.Services</RootNamespace>
+    <AssemblyName>Cyrus.Services</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper, Version=5.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.5.1.1\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FluentValidation, Version=6.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentValidation.6.2.1.0\lib\Net45\FluentValidation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MediatR, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MediatR.2.1.0\lib\net45\MediatR.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mehdime.Entity, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Mehdime.Entity.1.0.0\lib\Mehdime.Entity.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Packages\LibLog.4.2\LibLog.cs" />
+    <Compile Include="AsyncDbContextScopeBoundary.cs" />
+    <Compile Include="AsyncMediatorPipeline.cs" />
+    <Compile Include="AsyncValidatorHandler.cs" />
+    <Compile Include="Bases\BaseAutoMapperQueryHandler.cs" />
+    <Compile Include="Bases\BaseAutoMapperQueryHandlerAsync.cs" />
+    <Compile Include="Bases\BaseGenericQueryHandler.cs" />
+    <Compile Include="Bases\BaseGenericQueryHandlerAsync.cs" />
+    <Compile Include="Bases\BasePaginateQueryHandler.cs" />
+    <Compile Include="Bases\BasePaginateQueryHandlerAsync.cs" />
+    <Compile Include="Bases\BaseRequest.cs" />
+    <Compile Include="Command\CreateTribeCommandHandler.cs" />
+    <Compile Include="DbContextScopeBoundary.cs" />
+    <Compile Include="ExceptionLogger.cs" />
+    <Compile Include="ExceptionLoggerAsync.cs" />
+    <Compile Include="Extensions\QueryableExtension.cs" />
+    <Compile Include="MediatorPipeline.cs" />
+    <Compile Include="Query\AsyncAutoMapperQueryHandler.cs" />
+    <Compile Include="Query\AsyncGenericQueryHandler.cs" />
+    <Compile Include="Query\AsyncPaginateQueryHandler.cs" />
+    <Compile Include="Query\AutoMapperQueryHandler.cs" />
+    <Compile Include="Query\BestMarkInCourseQueryHandler.cs" />
+    <Compile Include="Query\BestMarkQueryHandler.cs" />
+    <Compile Include="Query\GenericQueryHandler.cs" />
+    <Compile Include="Query\PaginateQueryHandler.cs" />
+    <Compile Include="RecoverableException.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceException.cs" />
+    <Compile Include="UnrecoverableException.cs" />
+    <Compile Include="ValidatorHandler.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Cyrus.Core\Cyrus.Core.csproj">
+      <Project>{f9eb2d7a-0cb7-4bc7-87fb-75906cf1d18e}</Project>
+      <Name>Cyrus.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cyrus.Data\Cyrus.Data.csproj">
+      <Project>{6A328FAF-49D6-4466-996C-5A81B28C95CA}</Project>
+      <Name>Cyrus.Data</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
