@@ -9,9 +9,11 @@ namespace Cyrus.Bootstrapper
 
         public void ConfigureAuth(IAppBuilder app)
         {
-            // Load IdentityServer Stuff
             DataProtectionProvider = app.GetDataProtectionProvider();
-        }
 
+            // Load IdentityServer Stuff
+
+        }
     }
+
 }

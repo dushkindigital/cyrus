@@ -1,6 +1,4 @@
 ﻿using System.Data.Entity;
-using System.Reflection;
-using System.Web.Http.Controllers;
 using Cyrus.Core.Identity;
 using Cyrus.Data;
 using Cyrus.Data.Identity;
@@ -10,6 +8,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.AspNet.Identity;
 using System.Web;
 using Module = Autofac.Module;
+using System;
 
 namespace Cyrus.Bootstrapper
 {
@@ -25,36 +24,29 @@ namespace Cyrus.Bootstrapper
 
         protected override void Load(ContainerBuilder builder)
         {
-
-            builder.RegisterType(typeof(ApplicationUserManager)).As(typeof(IApplicationUserManager)).InstancePerRequest();
-            builder.RegisterType(typeof(ApplicationRoleManager)).As(typeof(IApplicationRoleManager)).InstancePerRequest();
-            builder.RegisterType(typeof(ApplicationIdentityUser)).As(typeof(IUser<int>)).InstancePerRequest();
-
-
-            builder.Register(b => b.Resolve<ICyrusDbContext>() as DbContext).InstancePerRequest();
-
-            //builder.RegisterAssemblyTypes(_assembliesToScan)
-            //   .AsClosedTypesOf(typeof(IApplicationUserManager))
-            //   .AsClosedTypesOf(typeof(IApplicationRoleManager))
-            //   .AsClosedTypesOf(typeof(IUser<int>))
-            //   .AsImplementedInterfaces();
+            
+                builder.RegisterType(typeof(ApplicationUserManager)).As(typeof(IApplicationUserManager)).InstancePerRequest();
+                builder.RegisterType(typeof(ApplicationRoleManager)).As(typeof(IApplicationRoleManager)).InstancePerRequest();
+                builder.RegisterType(typeof(ApplicationIdentityUser)).As(typeof(IUser<int>)).InstancePerRequest();
 
 
-            builder.Register(b =>
-            {
-                var manager = IdentityFactory.CreateUserManager(b.Resolve<DbContext>());
-                if (Startup.DataProtectionProvider != null)
+                builder.Register(b => b.Resolve<ICyrusDbContext>() as DbContext).InstancePerRequest();
+
+                builder.Register(b =>
                 {
-                    manager.UserTokenProvider =
-                        new DataProtectorTokenProvider<ApplicationIdentityUser, int>(
-                            Startup.DataProtectionProvider.Create("ASP.NET Identity"));
-                }
-                return manager;
-            }).InstancePerRequest();
+                    var manager = IdentityFactory.CreateUserManager(b.Resolve<DbContext>());
+                    if (Startup.DataProtectionProvider != null)
+                    {
+                        manager.UserTokenProvider =
+                            new DataProtectorTokenProvider<ApplicationIdentityUser, int>(
+                                Startup.DataProtectionProvider.Create("ASP.NET Identity"));
+                    }
+                    return manager;
+                }).InstancePerRequest();
 
-            builder.Register(b => IdentityFactory.CreateRoleManager(b.Resolve<DbContext>())).InstancePerRequest();
-            builder.Register(b => HttpContext.Current.Request.GetOwinContext().Authentication).InstancePerRequest();
-
+                builder.Register(b => IdentityFactory.CreateRoleManager(b.Resolve<DbContext>())).InstancePerRequest();
+                builder.Register(b => HttpContext.Current.Request.GetOwinContext().Authentication).InstancePerRequest();
+            
         }
     }
 }

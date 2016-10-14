@@ -7,7 +7,7 @@ namespace Cyrus.Data
     public class CyrusDbContext : DbContext, ICyrusDbContext
     {
         public CyrusDbContext()
-            : base("name=CyrusLocalDb") // use app.config transforms or web.config transforms to change this in the UI/Presentation project
+            : base("name=CyrusDbContext") // use app.config transforms or web.config transforms to change this in the UI/Presentation project
         {
         }
 

@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Cyrus.Data;
+using Mehdime.Entity;
 
 namespace Cyrus.Services.Query
 {
-    public class AutoMapperQueryHandler
+    public class AutoMapperQueryHandler<TSrcEntity, TDestModel> : BaseAutoMapperQueryHandler<TSrcEntity, TDestModel, ICyrusDbContext>
+        where TSrcEntity : class
     {
+        public AutoMapperQueryHandler(IDbContextScopeFactory dbContextScopeFactory)
+            : base(dbContextScopeFactory) { }
     }
 }

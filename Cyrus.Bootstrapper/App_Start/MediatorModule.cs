@@ -70,7 +70,7 @@ namespace Cyrus.Bootstrapper
 
             // Special registration of our Automapper Handler
             builder.RegisterGeneric(typeof(AutoMapperQuery<,>)).AsSelf();
-            builder.RegisterGeneric(typeof(AutoMapperQueryHandler))
+            builder.RegisterGeneric(typeof(AutoMapperQueryHandler<,>))
                 .As(typeof(IRequestHandler<,>))
                 .SingleInstance();
 
@@ -81,7 +81,7 @@ namespace Cyrus.Bootstrapper
 
             // Special Registration of our Generic Query Handler
             builder.RegisterGeneric(typeof(GenericQuery<>)).AsSelf();
-            builder.RegisterGeneric(typeof(GenericQueryHandler))
+            builder.RegisterGeneric(typeof(GenericQueryHandler<>))
                 .As(typeof(IRequestHandler<,>))
                 .SingleInstance();
 
@@ -92,12 +92,12 @@ namespace Cyrus.Bootstrapper
 
             // Special Registration of our Pagination Query Handler
             builder.RegisterGeneric(typeof(PaginateQuery<>)).AsSelf();
-            builder.RegisterGeneric(typeof(PaginateQueryHandler))
+            builder.RegisterGeneric(typeof(PaginateQueryHandler<>))
                 .As(typeof(IRequestHandler<,>))
                 .SingleInstance();
 
             builder.RegisterGeneric(typeof(AsyncPaginateQuery<>)).AsSelf();
-            builder.RegisterGeneric(typeof(AsyncPaginateQueryHandler))
+            builder.RegisterGeneric(typeof(AsyncPaginateQueryHandler<>))
                 .As(typeof(IAsyncRequestHandler<,>))
                 .SingleInstance();
 

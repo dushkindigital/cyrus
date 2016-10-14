@@ -12,7 +12,7 @@ namespace Cyrus.WebApi
             config.EnableSystemDiagnosticsTracing();
 
             // Web API configuration and services
-            var validatorFactory = new FluentValidatorFactory();
+            var validatorFactory = new Cyrus.WebApi.App_Start.FluentValidatorFactory();
             FluentValidationModelValidatorProvider.Configure(config, provider => provider.ValidatorFactory = validatorFactory);
 
             // Action Filters
@@ -21,7 +21,7 @@ namespace Cyrus.WebApi
             // Exception Filter
             config.Filters.Add(new ServiceExceptionFilterAttribute());
 
-            config.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Never;
+            config.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always; //Was "Never". Remove for upper environs.
 
             // Web API routes
             config.MapHttpAttributeRoutes();

@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Mehdime.Entity;
+using Cyrus.Services.Bases;
+using Cyrus.Data;
 
 namespace Cyrus.Services.Query
 {
-    public class AsyncPaginateQueryHandler
+    public class AsyncPaginateQueryHandler<TEntity> : BaseAsyncPaginateQueryHandler<TEntity, ICyrusDbContext>
+        where TEntity : class
     {
+        public AsyncPaginateQueryHandler(IDbContextScopeFactory dbContextScopeFactory)
+            : base(dbContextScopeFactory) { }
     }
 }

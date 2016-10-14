@@ -1,14 +1,14 @@
 ﻿using System;
+using AutoMapper;
 using Cyrus.Core.DomainModels;
 using Cyrus.WebApi.ViewModels;
-using AutoMapper;
 
 namespace Cyrus.WebApi.AutoMapperProfiles
 {
     public class AutoMapperProfile : Profile
     {
-
-        public AutoMapperProfile()
+        [Obsolete]
+        protected override void Configure()
         {
             CreateMap<Tribe, TribesViewModel>();
             CreateMap<TribeMember, TribeMembersViewModel>();

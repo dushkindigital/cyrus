@@ -2,7 +2,7 @@
 using System.Web.Http;
 using FluentValidation;
 
-namespace Cyrus.WebApi
+namespace Cyrus.WebApi.App_Start
 {
     public class FluentValidatorFactory : ValidatorFactoryBase
     {

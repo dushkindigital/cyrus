@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Cyrus.WebApi.AutoMapperProfiles;
+using System.Web.Http;
 
 namespace Cyrus.WebApi
 {
@@ -7,9 +7,12 @@ namespace Cyrus.WebApi
     {
         public static void Initialize()
         {
+            var profiles = GlobalConfiguration.Configuration.DependencyResolver.GetServices(typeof(Profile));
+
             Mapper.Initialize(cfg =>
             {
-                cfg.AddProfile(new AutoMapperProfile());
+                foreach (Profile profile in profiles)
+                    cfg.AddProfile(profile);
             });
         }
     }
