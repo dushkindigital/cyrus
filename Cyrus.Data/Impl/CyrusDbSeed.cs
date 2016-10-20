@@ -1,6 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
+﻿using System.Collections.Generic;
+using Cyrus.Core.DomainModels;
+using Cyrus.Data.Identity;
+using Cyrus.Data.Identity.Models;
+using Microsoft.AspNet.Identity;
 
 namespace Cyrus.Data.Impl
 {
@@ -8,49 +10,79 @@ namespace Cyrus.Data.Impl
     {
         public static void Seed(ICyrusDbContext context)
         {
-        //    var students = new List<Student>
-        //    {
-        //        new Student{FirstMidName="Carson",LastName="Alexander",EnrollmentDate=DateTime.Parse("2005-09-01")},
-        //        new Student{FirstMidName="Meredith",LastName="Alonso",EnrollmentDate=DateTime.Parse("2002-09-01")},
-        //        new Student{FirstMidName="Arturo",LastName="Anand",EnrollmentDate=DateTime.Parse("2003-09-01")},
-        //        new Student{FirstMidName="Gytis",LastName="Barzdukas",EnrollmentDate=DateTime.Parse("2002-09-01")},
-        //        new Student{FirstMidName="Yan",LastName="Li",EnrollmentDate=DateTime.Parse("2002-09-01")},
-        //        new Student{FirstMidName="Peggy",LastName="Justice",EnrollmentDate=DateTime.Parse("2001-09-01")},
-        //        new Student{FirstMidName="Laura",LastName="Norman",EnrollmentDate=DateTime.Parse("2003-09-01")},
-        //        new Student{FirstMidName="Nino",LastName="Olivetto",EnrollmentDate=DateTime.Parse("2005-09-01")}
-        //    };
 
-        //    students.ForEach(s => context.Set<Student>().Add(s));
-        //    ((DbContext)context).SaveChanges();
-        //    var courses = new List<Course>
-        //    {
-        //        new Course{CourseId=1050,Title="Chemistry",Credits=3,},
-        //        new Course{CourseId=4022,Title="Microeconomics",Credits=3,},
-        //        new Course{CourseId=4041,Title="Macroeconomics",Credits=3,},
-        //        new Course{CourseId=1045,Title="Calculus",Credits=4,},
-        //        new Course{CourseId=3141,Title="Trigonometry",Credits=4,},
-        //        new Course{CourseId=2021,Title="Composition",Credits=3,},
-        //        new Course{CourseId=2042,Title="Literature",Credits=4,}
-        //    };
-        //    courses.ForEach(s => context.Set<Course>().Add(s));
-        //    ((DbContext)context).SaveChanges();
-        //    var enrollments = new List<Enrollment>
-        //    {
-        //        new Enrollment{StudentId=1,CourseId=1050,Grade=Grade.A},
-        //        new Enrollment{StudentId=1,CourseId=4022,Grade=Grade.C},
-        //        new Enrollment{StudentId=1,CourseId=4041,Grade=Grade.B},
-        //        new Enrollment{StudentId=2,CourseId=1045,Grade=Grade.B},
-        //        new Enrollment{StudentId=2,CourseId=3141,Grade=Grade.F},
-        //        new Enrollment{StudentId=2,CourseId=2021,Grade=Grade.F},
-        //        new Enrollment{StudentId=3,CourseId=1050},
-        //        new Enrollment{StudentId=4,CourseId=1050,},
-        //        new Enrollment{StudentId=4,CourseId=4022,Grade=Grade.F},
-        //        new Enrollment{StudentId=5,CourseId=4041,Grade=Grade.C},
-        //        new Enrollment{StudentId=6,CourseId=1045},
-        //        new Enrollment{StudentId=7,CourseId=3141,Grade=Grade.A},
-        //    };
-        //    enrollments.ForEach(s => context.Set<Enrollment>().Add(s));
-        //    ((DbContext)context).SaveChanges();
+            // This is only for testing purposes
+            const string name = "admin@cyrus.com";
+            const string password = "Admin@12345";
+            const string roleName = "Admin";
+
+            var applicationRoleManager = IdentityFactory.CreateRoleManager((CyrusDbContext) context);
+            var applicationUserManager = IdentityFactory.CreateUserManager((CyrusDbContext) context);
+            
+            //Create Role Admin if it does not exist
+            var role = applicationRoleManager.FindByName(roleName);
+            if (role == null)
+            {
+                role = new ApplicationIdentityRole { Name = roleName };
+                applicationRoleManager.Create(role);
+            }
+
+
+            var user = applicationUserManager.FindByName(name);
+            if (user == null)
+            {
+                user = new ApplicationIdentityUser
+                {
+                    UserName = name,
+                    Email = name
+
+                };
+
+                IdentityResult createResult = applicationUserManager.Create(user, password);
+                applicationUserManager.SetLockoutEnabled(user.Id, false);
+            }
+
+            // Add user admin to Role Admin if not already added
+            var rolesForUser = applicationUserManager.GetRoles(user.Id);
+            if (!rolesForUser.Contains(role.Name))
+            {
+                applicationUserManager.AddToRole(user.Id, role.Name);
+            }
+
+            var tribes = new List<Tribe>
+            {
+                new Tribe{Name = "Alley Cats 0", Description = "Scrappy cats 0", UserId = 1, IsActive = true, IsPublic = false},
+                new Tribe{Name = "Alley Cats 1", Description = "Scrappy cats 1", UserId = 2, IsActive = true, IsPublic = false},
+                new Tribe{Name = "Alley Cats 2", Description = "Scrappy cats 2", UserId = 3, IsActive = true, IsPublic = false},
+                new Tribe{Name = "Alley Cats 3", Description = "Scrappy cats 3", UserId = 4, IsActive = true, IsPublic = false},
+                new Tribe{Name = "Alley Cats 4", Description = "Scrappy cats 4", UserId = 5, IsActive = true, IsPublic = false},
+                new Tribe{Name = "Alley Cats 5", Description = "Scrappy cats 5", UserId = 6, IsActive = true, IsPublic = false},
+                new Tribe{Name = "Alley Cats 6", Description = "Scrappy cats 6", UserId = 4, IsActive = true, IsPublic = false},
+                new Tribe{Name = "Alley Cats 7", Description = "Scrappy cats 7", UserId = 5, IsActive = true, IsPublic = false},
+                new Tribe{Name = "Alley Cats 8", Description = "Scrappy cats 8", UserId = 8, IsActive = true, IsPublic = false},
+
+            };
+
+            tribes.ForEach(t => context.Set<Tribe>().Add(t));
+            ((CyrusDbContext)context).SaveChanges();
+
+            var members = new List<TribeMember> //add to tribe entity
+            {
+                new TribeMember {IsAdmin = false, IsApproved = false, TribeId = 2, UserId = 1 },
+                new TribeMember {IsAdmin = false, IsApproved = true, TribeId = 2, UserId = 2 },
+                new TribeMember {IsAdmin = false, IsApproved = false, TribeId = 2, UserId = 3 },
+                new TribeMember {IsAdmin = false, IsApproved = false, TribeId = 2, UserId = 4 },
+                new TribeMember {IsAdmin = false, IsApproved = true, TribeId = 2, UserId = 5 },
+                new TribeMember {IsAdmin = false, IsApproved = true, TribeId = 2, UserId = 6 },
+                new TribeMember {IsAdmin = true, IsApproved = true, TribeId = 2, UserId = 7 },
+                new TribeMember {IsAdmin = false, IsApproved = false, TribeId = 2, UserId = 8 },
+                new TribeMember {IsAdmin = false, IsApproved = true, TribeId = 2, UserId = 9 }
+            };
+
+            members.ForEach(tm => context.Set<TribeMember>().Add(tm));
+            ((CyrusDbContext)context).SaveChanges();
+            
+        
         }
     }
 }

@@ -35,6 +35,7 @@ namespace Cyrus.Bootstrapper
                 builder.Register(b =>
                 {
                     var manager = IdentityFactory.CreateUserManager(b.Resolve<DbContext>());
+                    //var manager = IdentityFactory.CreateUserManager(b.Resolve<ICyrusDbContext>() as DbContext);
                     if (Startup.DataProtectionProvider != null)
                     {
                         manager.UserTokenProvider =
@@ -44,8 +45,9 @@ namespace Cyrus.Bootstrapper
                     return manager;
                 }).InstancePerRequest();
 
-                builder.Register(b => IdentityFactory.CreateRoleManager(b.Resolve<DbContext>())).InstancePerRequest();
-                builder.Register(b => HttpContext.Current.Request.GetOwinContext().Authentication).InstancePerRequest();
+            builder.Register(b => IdentityFactory.CreateRoleManager(b.Resolve<DbContext>())).InstancePerRequest();
+            //builder.Register(b => IdentityFactory.CreateRoleManager(b.Resolve<ICyrusDbContext>())).InstancePerRequest();
+            builder.Register(b => HttpContext.Current.Request.GetOwinContext().Authentication).InstancePerRequest();
             
         }
     }

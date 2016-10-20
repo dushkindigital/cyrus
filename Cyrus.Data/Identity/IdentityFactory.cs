@@ -8,9 +8,9 @@ namespace Cyrus.Data.Identity
 {
     public class IdentityFactory
     {
-        public static UserManager<ApplicationIdentityUser, int> CreateUserManager(DbContext context)
+        public static UserManager<ApplicationIdentityUser, int> CreateUserManager(DbContext context)//(ICyrusDbContext context)
         {
-            var manager = new UserManager<ApplicationIdentityUser, int>(new UserStore<ApplicationIdentityUser, ApplicationIdentityRole, int, ApplicationIdentityUserLogin, ApplicationIdentityUserRole, ApplicationIdentityUserClaim>(context));
+            var manager = new UserManager<ApplicationIdentityUser, int>(new UserStore<ApplicationIdentityUser, ApplicationIdentityRole, int, ApplicationIdentityUserLogin, ApplicationIdentityUserRole, ApplicationIdentityUserClaim>((CyrusDbContext)context));
             // Configure validation logic for usernames
             manager.UserValidator = new  UserValidator<ApplicationIdentityUser, int>(manager)
             {
@@ -46,9 +46,10 @@ namespace Cyrus.Data.Identity
             return manager;
         }
 
-        public static RoleManager<ApplicationIdentityRole, int> CreateRoleManager(DbContext context)
+        public static RoleManager<ApplicationIdentityRole, int> CreateRoleManager(DbContext context)//(ICyrusDbContext context)
         {
             return new RoleManager<ApplicationIdentityRole, int>(new RoleStore<ApplicationIdentityRole, int, ApplicationIdentityUserRole>(context));
+            //return new RoleManager<ApplicationIdentityRole, int>(new RoleStore<ApplicationIdentityRole, int, ApplicationIdentityUserRole>((CyrusDbContext) context);
         }
     }
 }

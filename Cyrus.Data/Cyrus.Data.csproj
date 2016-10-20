@@ -89,6 +89,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EfConfig.cs" />
     <Compile Include="Extensions\DbContextScopeExtensions.cs" />
     <Compile Include="Extensions\IdentityExtensions.cs" />
     <Compile Include="Extensions\QueryableExtensions.cs" />

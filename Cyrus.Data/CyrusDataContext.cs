@@ -27,10 +27,6 @@ namespace Cyrus.Data
             : base(nameOrConnectionString)
         {
 
-            // added
-            Configuration.ProxyCreationEnabled = false;
-            Configuration.LazyLoadingEnabled = false;
-
             Database.Log = logger.Log;
             if (_databaseInitialized)
             {

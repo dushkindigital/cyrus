@@ -22,6 +22,12 @@ namespace Cyrus.Data
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             #endregion
 
+            #region PROFILES
+            modelBuilder.Entity<ProfileAttribute>()
+                .Property(e => e.Id)
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            #endregion
+
             #region IDENTITY
             modelBuilder.Entity<ApplicationIdentityUser>()
                 .Property(e => e.Id)

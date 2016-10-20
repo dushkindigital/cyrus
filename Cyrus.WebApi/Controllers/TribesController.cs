@@ -23,6 +23,7 @@ namespace Cyrus.WebApi.Controllers.api
         }
 
         // GET api/tribes
+        [Authorize]
         public async Task<IEnumerable<Tribe>> Get()
         {
             // Example of calling the paginated result

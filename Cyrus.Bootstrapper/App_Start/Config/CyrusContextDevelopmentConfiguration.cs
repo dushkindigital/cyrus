@@ -1,21 +1,36 @@
 ﻿using Cyrus.Data;
-using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Cyrus.Data.Impl;
 
 namespace Cyrus.Bootstrapper
 {
     public class CyrusContextDevelopmentConfiguration : DbConfiguration
     {
+        private static readonly object Lock = new object();
+        private static bool _databaseInitialized;
+
         public CyrusContextDevelopmentConfiguration()
         {
-            SetDatabaseInitializer<CyrusDbContext>(new CyrusDbInitializer());
-            SetDefaultConnectionFactory(new LocalDbConnectionFactory("MSSQLLocalDB"));
+
+            //Database.Log = logger.Log;
+
+            if (_databaseInitialized)
+            {
+                return;
+            }
+            lock (Lock)
+            {
+                if (!_databaseInitialized)
+                {
+                    // Set the database intializer which is run once during application start
+                    // This seeds the database with admin user credentials and admin role
+                    SetDatabaseInitializer<CyrusDbContext>(new CyrusDbInitializer());
+                    SetDefaultConnectionFactory(new LocalDbConnectionFactory("MSSQLLocalDB"));
+                    
+                    _databaseInitialized = true;
+                }
+            }
         }
     }
 

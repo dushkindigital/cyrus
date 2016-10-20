@@ -24,10 +24,8 @@ namespace Cyrus.Bootstrapper
             
             builder.RegisterApiControllers(typeof(WebApiApplication).Assembly);
 
-            //builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
-            
+            //Helper nuget for managing the DbContext lifetime in Entity Framework. Please see: http://mehdi.me/ambient-dbcontext-in-ef6/
             builder.RegisterType<DbContextScopeFactory>().As<IDbContextScopeFactory>().SingleInstance();
-
             builder.RegisterType<AmbientDbContextLocator>().As<IAmbientDbContextLocator>().SingleInstance();
 
             // Registers our IMediator (abstraction for observer pattern, which lets us use CQRS)
@@ -39,7 +37,7 @@ namespace Cyrus.Bootstrapper
             // Registers our AutoMapper Profiles
             builder.RegisterModule(new AutoMapperModule(Assembly.Load("Cyrus.WebApi"), Assembly.Load("Cyrus.Services")));
 
-            // Registers our Identity
+            // Registers our ASP.NET Identity custom classes.
             builder.RegisterModule(new IdentityModule(Assembly.Load("Cyrus.Data"), Assembly.Load("Cyrus.Core")));
 
             var container = builder.Build();
