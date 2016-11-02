@@ -95,8 +95,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\AutoMapperConfig.cs" />
-    <Compile Include="App_Start\FluentValidatorFactoryConfig.cs" />
-    <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="AutoMapperProfiles\AutoMapperProfile.cs" />
     <Compile Include="Controllers\TribesController.cs" />
     <Compile Include="Extensions\IdentityExtensions.cs" />
