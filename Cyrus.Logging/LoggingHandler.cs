@@ -18,9 +18,8 @@ namespace Cyrus.Services
         {
             var baseRequest = (BaseRequest)request;
             
-            //log4net.LogicalThreadContext.Properties["TrackingId"] = baseRequest.TrackingId.ToString();
             NLog.MappedDiagnosticsLogicalContext.Set("TrackingId", baseRequest.TrackingId.ToString());
-
+            
             return _inner.Handle(request);
         }
     }

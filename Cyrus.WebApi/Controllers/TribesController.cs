@@ -11,7 +11,7 @@ using MediatR;
 
 namespace Cyrus.WebApi.Controllers.api
 {
-        public class TribesController : ApiController
+    public class TribesController : ApiController
     {
         private readonly IMediator _mediator;
 
@@ -33,7 +33,7 @@ namespace Cyrus.WebApi.Controllers.api
             // May or may not want to adopt this approach.
 
             var tribes = await _mediator.SendAsync(new AsyncGenericQuery<Tribe>(20));
-
+            
             return tribes;
 
         }
@@ -48,7 +48,7 @@ namespace Cyrus.WebApi.Controllers.api
             // May or may not want to adopt this approach.
 
             var tribe = await _mediator.SendAsync(new AsyncGenericQuery<Tribe>(
-                null, orderBy: x => x.OrderBy(c => c.Name), predicate: u => u.UserId==id));
+                null, orderBy: x => x.OrderBy(c => c.Name), predicate: u => u.UserId == id));
 
             return tribe;
 
@@ -66,16 +66,16 @@ namespace Cyrus.WebApi.Controllers.api
         public async Task<int> Post([FromBody] CreateOrUpdateTribeViewModel model)
         {
 
-           var command = new CreateTribeCommand
-           {
-               Name = model.Name,
-               Description = model.Description
-           };
+            var command = new CreateTribeCommand
+            {
+                Name = model.Name,
+                Description = model.Description
+            };
 
-           var tribe = await _mediator.SendAsync(command);
+            var tribe = await _mediator.SendAsync(command);
 
-           return tribe.Id;
-            
+            return tribe.Id;
+
         }
 
         public async Task<Tribe> Put(int id, [FromBody] CreateOrUpdateTribeViewModel model)

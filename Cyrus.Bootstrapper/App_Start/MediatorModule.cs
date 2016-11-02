@@ -43,7 +43,8 @@ namespace Cyrus.Bootstrapper
                 .SingleInstance();
 
             // Registers all of our commands and queries that have the IDatabaseService marker
-            // If we want to make services that perhaps talk to external API's without any DB interactions, then we would leave out the DbContextScopeBoundary
+            // If we want to make services that perhaps talk to external API's without any DB interactions, 
+            // then we would leave out the DbContextScopeBoundary
             builder.ScanRegisterAndDecorate(
                 _assembliesToScan,
                 typeof(IDatabaseService),

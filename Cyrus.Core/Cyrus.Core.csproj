@@ -84,7 +84,6 @@
     <Compile Include="Extensions\QueryableExtensions.cs" />
     <Compile Include="Identity\IApplicationRoleManager.cs" />
     <Compile Include="Identity\IApplicationUserManager.cs" />
-    <Compile Include="Identity\ISecureTokenFormatter.cs" />
     <Compile Include="Identity\SignInStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

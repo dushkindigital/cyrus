@@ -1,4 +1,5 @@
 ﻿using Microsoft.Owin.Security.DataProtection;
+using Microsoft.Owin.Security.OAuth;
 using Owin;
 
 namespace Cyrus.Bootstrapper
@@ -7,11 +8,16 @@ namespace Cyrus.Bootstrapper
     {
         public static IDataProtectionProvider DataProtectionProvider { get; private set; }
 
-        public void ConfigureAuth(IAppBuilder app)
+        public void ConfigureOAuth(IAppBuilder app)
         {
             DataProtectionProvider = app.GetDataProtectionProvider();
 
-            // Load IdentityServer Stuff
+            /***** Load IdentityServer Stuff *****/
+
+            //Token Consumption
+            app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions
+            {
+            });
 
         }
     }

@@ -3,34 +3,34 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Security.Cryptography;
-using Cyrus.WebApi.Models;
 using System.Threading.Tasks;
 using System.Web;
 using Cyrus.Core.Identity;
 using Cyrus.Core.DomainModels.Identity;
 using System.Web.Http;
 using Cyrus.WebApi.Results;
-using Microsoft.AspNet.Identity;
+using MediatR;
 
 
 namespace Cyrus.WebApi.Controllers
 {
-    [System.Web.Mvc.Authorize]
-    [System.Web.Mvc.RoutePrefix("api/v1/accounts")]
+    [Authorize]
     public class AccountController : ApiController
     {
         private const string LocalLoginProvider = "Local";
-        private IApplicationUserManager _userManager;
+        private readonly IApplicationUserManager _userManager;
+        private readonly IMediator _mediator;
 
         public AccountController()
         {
         }
 
-        public AccountController(IApplicationUserManager userManager,
-             ISecureTokenFormatter accessTokenFormat)
+        public AccountController(
+            IApplicationUserManager userManager,
+            IMediator mediator)
         {
             _userManager = userManager;
-            AccessTokenFormat = accessTokenFormat;
+            _mediator = mediator;
         }
 
         //public ISecureDataFormat<AuthenticationTicket> AccessTokenFormat { get; private set; }
@@ -39,7 +39,7 @@ namespace Cyrus.WebApi.Controllers
 
         // GET api/Account/UserInfo
         [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
-        [System.Web.Mvc.Route("UserInfo")]
+        [Route("UserInfo")]
         public UserInfoViewModel GetUserInfo()
         {
             ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
@@ -213,10 +213,10 @@ namespace Cyrus.WebApi.Controllers
         }
 
         // GET api/Account/ExternalLogin
-        [System.Web.Mvc.OverrideAuthentication]
+        [OverrideAuthentication]
         [HostAuthentication(DefaultAuthenticationTypes.ExternalCookie)]
-        [System.Web.Mvc.AllowAnonymous]
-        [System.Web.Mvc.Route("ExternalLogin", Name = "ExternalLogin")]
+        [AllowAnonymous]
+        [Route("ExternalLogin", Name = "ExternalLogin")]
         public async Task<IHttpActionResult> GetExternalLogin(string provider, string error = null)
         {
             if (error != null)
@@ -312,24 +312,49 @@ namespace Cyrus.WebApi.Controllers
         }
 
         // POST api/Account/Register
-        [System.Web.Mvc.AllowAnonymous]
-        [System.Web.Mvc.Route("Register")]
-        public async Task<IHttpActionResult> Register(RegisterBindingModel model)
+        [AllowAnonymous]
+        [Route("Register")]
+        public async Task<IHttpActionResult> Register(RegisterViewModel model)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var user = new AppUser() { UserName = model.Email, Email = model.Email };
+            var user = new AppUser()
+            {
+                UserName = model.Email,
+                Email = model.Email
+            };
 
-            ApplicationIdentityResult result = await _userManager.CreateAsync(user, model.Password);
+            var result = await _userManager.CreateAsync(user, model.Password);
 
             if (!result.Succeeded)
             {
                 return GetErrorResult(result);
             }
 
+            var emailConfirmationToken = await _userManager.GenerateEmailConfirmationTokenAsync(user.Id);
+
+            var callbackUrl = Url.Action(new UrlActionContext
+            {
+                Action = nameof(ConfirmEmail),
+                Controller = "Account",
+                Values = new { userId = user.Id, token = emailConfirmationToken },
+                Protocol = HttpContext.Request.Scheme
+            });
+
+            await _mediator.SendAsync(new SendConfirmAccountEmail { Email = user.Email, CallbackUrl = callbackUrl });
+
+            var changePhoneNumberToken = await _userManager.GenerateChangePhoneNumberTokenAsync(user, model.PhoneNumber);
+            await _mediator.SendAsync(new SendAccountSecurityTokenSms { PhoneNumber = model.PhoneNumber, Token = changePhoneNumberToken });
+
+            await _userManager.AddClaimAsync(user, new Claim(Security.ClaimTypes.ProfileIncomplete, "NewUser"));
+            await _signInManager.SignInAsync(user, isPersistent: false);
+
+            return RedirectToAction(nameof(HomeController.Index), "Home");
+
+            
             return Ok();
         }
 

@@ -7,8 +7,6 @@ namespace Cyrus.WebApi
         protected void Application_Start()
         {
             AutoMapperConfig.Initialize();
-            GlobalConfiguration.Configure(WebApiConfig.Register);
-
         }
     }
 }

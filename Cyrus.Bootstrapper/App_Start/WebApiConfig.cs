@@ -1,8 +1,10 @@
 ﻿using System.Web.Http;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using Cyrus.WebApi.Filters;
 using FluentValidation.WebApi;
 
-namespace Cyrus.WebApi
+namespace Cyrus.Bootstrapper
 {
     public class WebApiConfig
     {
@@ -12,7 +14,7 @@ namespace Cyrus.WebApi
             config.EnableSystemDiagnosticsTracing();
 
             // Web API configuration and services
-            var validatorFactory = new Cyrus.WebApi.App_Start.FluentValidatorFactory();
+            var validatorFactory = new FluentValidatorFactory();
             FluentValidationModelValidatorProvider.Configure(config, provider => provider.ValidatorFactory = validatorFactory);
 
             // Action Filters
@@ -31,6 +33,11 @@ namespace Cyrus.WebApi
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+            // For JSON-formatted Serialization
+            var jsonSettings = config.Formatters.JsonFormatter.SerializerSettings;
+            jsonSettings.Formatting = Formatting.Indented;
+            jsonSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
         }
     }
 }
