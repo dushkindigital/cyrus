@@ -67,6 +67,8 @@ namespace Cyrus.Bootstrapper
                 typeof(LoggingHandler<,>)
             );
 
+            //builder.RegisterType<AccountUserInfoQueryHandler>().As<IRequestHandler<>();
+
             #region Generic Helper Query Services
 
             // Special registration of our Automapper Handler
@@ -101,7 +103,7 @@ namespace Cyrus.Bootstrapper
             builder.RegisterGeneric(typeof(AsyncPaginateQueryHandler<>))
                 .As(typeof(IAsyncRequestHandler<,>))
                 .SingleInstance();
-
+            
             #endregion
 
             // Sets the delegate resolver factories for Mediatr.
@@ -116,6 +118,7 @@ namespace Cyrus.Bootstrapper
                 var c = ctx.Resolve<IComponentContext>();
                 return t => (IEnumerable<object>) c.Resolve(typeof(IEnumerable<>).MakeGenericType(t));
             });
+            
         }
     }
 }

@@ -2,6 +2,8 @@
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using Cyrus.Data.Impl;
+using System.Configuration;
+using System;
 
 namespace Cyrus.Bootstrapper
 {
@@ -14,6 +16,9 @@ namespace Cyrus.Bootstrapper
         {
 
             //Database.Log = logger.Log;
+            
+            _databaseInitialized = 
+                !Convert.ToBoolean(ConfigurationManager.AppSettings["AutoBuildDatabase"]);
 
             if (_databaseInitialized)
             {

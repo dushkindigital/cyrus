@@ -26,5 +26,6 @@ namespace Cyrus.Core.DomainModels.Identity
         public virtual ICollection<ApplicationUserRole> Roles { get; private set; }
         public virtual string SecurityStamp { get; set; }
         public virtual bool TwoFactorEnabled { get; set; }
+        
     }
 }

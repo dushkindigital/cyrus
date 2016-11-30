@@ -62,6 +62,7 @@
     <Compile Include="DomainServices\Command\UpdateTribeCommand.cs" />
     <Compile Include="DomainServices\Decorators\IAsyncPreRequestHandler.cs" />
     <Compile Include="DomainServices\Decorators\IPreRequestHandler.cs" />
+    <Compile Include="DomainServices\Dto\AccountUserInfoDto.cs" />
     <Compile Include="DomainServices\Extensions\QueryableExtension.cs" />
     <Compile Include="DomainServices\IProcedure.cs" />
     <Compile Include="DomainServices\IDatabaseService.cs" />
@@ -73,6 +74,7 @@
     <Compile Include="DomainServices\QueryableArgs\ITakeQuery.cs" />
     <Compile Include="DomainServices\Query\AutoMapperQuery.cs" />
     <Compile Include="DomainServices\Query\AutoMapperQueryAsync.cs" />
+    <Compile Include="DomainServices\Query\AccountUserInfoQuery.cs" />
     <Compile Include="DomainServices\Query\GenericQuery.cs" />
     <Compile Include="DomainServices\Query\GenericQueryAsync.cs" />
     <Compile Include="DomainServices\Query\PaginateQuery.cs" />
@@ -87,9 +89,7 @@
     <Compile Include="Identity\SignInStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="DomainServices\Dto\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>

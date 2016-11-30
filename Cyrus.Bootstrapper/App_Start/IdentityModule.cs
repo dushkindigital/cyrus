@@ -4,6 +4,7 @@ using Cyrus.Data;
 using Cyrus.Data.Identity;
 using Cyrus.Data.Identity.Models;
 using Autofac;
+using Autofac.Features.Variance;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.AspNet.Identity;
 using System.Web;
@@ -24,29 +25,53 @@ namespace Cyrus.Bootstrapper
 
         protected override void Load(ContainerBuilder builder)
         {
-            
-                builder.RegisterType(typeof(ApplicationUserManager)).As(typeof(IApplicationUserManager)).InstancePerRequest();
-                builder.RegisterType(typeof(ApplicationRoleManager)).As(typeof(IApplicationRoleManager)).InstancePerRequest();
-                builder.RegisterType(typeof(ApplicationIdentityUser)).As(typeof(IUser<int>)).InstancePerRequest();
+            builder.RegisterSource(new ContravariantRegistrationSource());
+
+            //builder.RegisterAssemblyTypes(typeof(IMediator).Assembly).AsImplementedInterfaces();
+
+            // Register our UserManager
+            builder.RegisterAssemblyTypes(_assembliesToScan)
+                .As<IApplicationUserManager>().InstancePerRequest();
+
+            //// Register our RoleManager
+            builder.RegisterAssemblyTypes(_assembliesToScan)
+                .As<IApplicationRoleManager>().InstancePerRequest();
+
+            builder.RegisterAssemblyTypes(_assembliesToScan)
+                .As<IUser<int>>().InstancePerRequest();
+
+            builder.RegisterAssemblyTypes(_assembliesToScan)
+                .As<ICyrusDbContext>().InstancePerRequest();
+
+            builder.RegisterAssemblyTypes(_assembliesToScan)
+                .As<DbContext>().InstancePerRequest();
+
+            //builder.RegisterType(typeof(ApplicationUserManager)).As(typeof(IApplicationUserManager)).InstancePerRequest();
+            //    builder.RegisterType(typeof(ApplicationRoleManager)).As(typeof(IApplicationRoleManager)).InstancePerRequest();
+            //    builder.RegisterType(typeof(ApplicationIdentityUser)).As(typeof(IUser<int>)).InstancePerRequest();
 
 
-                builder.Register(b => b.Resolve<ICyrusDbContext>() as DbContext).InstancePerRequest();
+            //    builder.Register(b => b.Resolve<ICyrusDbContext>() as DbContext).InstancePerRequest();
 
-                builder.Register(b =>
+            builder.Register(b =>
                 {
                     var manager = IdentityFactory.CreateUserManager(b.Resolve<DbContext>());
-                    //var manager = IdentityFactory.CreateUserManager(b.Resolve<ICyrusDbContext>() as DbContext);
+                    
                     if (Startup.DataProtectionProvider != null)
                     {
                         manager.UserTokenProvider =
                             new DataProtectorTokenProvider<ApplicationIdentityUser, int>(
-                                Startup.DataProtectionProvider.Create("ASP.NET Identity"));
+                                Startup.DataProtectionProvider.Create("ASP.NET Identity"))
+                            {
+                                //Code for email confirmation and reset password life time
+                                TokenLifespan = TimeSpan.FromHours(6)
+                            };
                     }
                     return manager;
                 }).InstancePerRequest();
 
             builder.Register(b => IdentityFactory.CreateRoleManager(b.Resolve<DbContext>())).InstancePerRequest();
-            //builder.Register(b => IdentityFactory.CreateRoleManager(b.Resolve<ICyrusDbContext>())).InstancePerRequest();
+            
             builder.Register(b => HttpContext.Current.Request.GetOwinContext().Authentication).InstancePerRequest();
             
         }

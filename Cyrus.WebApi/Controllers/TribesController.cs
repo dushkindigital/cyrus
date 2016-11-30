@@ -11,6 +11,8 @@ using MediatR;
 
 namespace Cyrus.WebApi.Controllers.api
 {
+    [Authorize]
+    [RoutePrefix("api/v1/tribes")]
     public class TribesController : ApiController
     {
         private readonly IMediator _mediator;
@@ -23,7 +25,6 @@ namespace Cyrus.WebApi.Controllers.api
         }
 
         // GET api/tribes
-        [Authorize]
         public async Task<IEnumerable<Tribe>> Get()
         {
             // Example of calling the paginated result

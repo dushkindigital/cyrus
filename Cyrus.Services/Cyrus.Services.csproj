@@ -81,8 +81,7 @@
     <Compile Include="Query\AsyncGenericQueryHandler.cs" />
     <Compile Include="Query\AsyncPaginateQueryHandler.cs" />
     <Compile Include="Query\AutoMapperQueryHandler.cs" />
-    <Compile Include="Query\BestMarkInCourseQueryHandler.cs" />
-    <Compile Include="Query\BestMarkQueryHandler.cs" />
+    <Compile Include="Query\AccountUserInfoQueryHandler.cs" />
     <Compile Include="Query\GenericQueryHandler.cs" />
     <Compile Include="Query\PaginateQueryHandler.cs" />
     <Compile Include="RecoverableException.cs" />

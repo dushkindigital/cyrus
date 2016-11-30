@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Autofac.Integration.WebApi;
 using Mehdime.Entity;
+using System.Linq;
 using System.Web.Http;
 using System.Reflection;
 using Cyrus.Bootstrapper.Config;
@@ -12,12 +13,15 @@ using Owin;
 
 namespace Cyrus.Bootstrapper
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class IocConfig
     {
         /// <summary>
         /// Autofac type registration / template construction
         /// </summary>
-        /// <param name="config"></param>
+        /// <param name="app"></param>
         public static void RegisterDependencies(IAppBuilder app)
         {
             DbContextScopeExtensionConfig.Setup();
@@ -25,6 +29,12 @@ namespace Cyrus.Bootstrapper
             // Get your HttpConfiguration. In OWIN, you'll create one
             // rather than using GlobalConfiguration.
             var config = new HttpConfiguration();
+
+            // register Auto Mapper
+            AutoMapperConfig.Initialize();
+
+            // register Swagger
+            SwaggerConfig.Initialize(config);
 
             // register api routing.
             WebApiConfig.Register(config);
@@ -56,8 +66,9 @@ namespace Cyrus.Bootstrapper
             // Set the dependency resolver to be Autofac.
             var container = builder.Build();
 
-            // Glimpse nuget package - helps view registered autofac dependencies.
-            // container.ActivateGlimpse(); -- causes problems loading Autofac 
+            // helps view registered autofac dependencies.
+            //var services = container.ComponentRegistry.Registrations.SelectMany(x => x.Services)
+            //    .OfType<Cyrus.Data.ICyrusDbContext>().Where(x => x.ServiceType == Cyrus.Data.Identity.ApplicationUserManager);
 
             config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
 

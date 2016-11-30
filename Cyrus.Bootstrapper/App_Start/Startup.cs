@@ -1,7 +1,12 @@
 ﻿using System;
 using Owin;
 
-// Owin startup is handled in Web.config
+/// <summary>
+/// Initialization and configurations are handled here. 
+/// </summary>
+/// <remarks>
+/// The owin pipeline initialization is handled in keys.config in WebApi.
+/// </remarks>
 namespace Cyrus.Bootstrapper
 {
     public partial class Startup
@@ -10,10 +15,10 @@ namespace Cyrus.Bootstrapper
         {
             string trackingId = Guid.NewGuid().ToString();
             NLog.MappedDiagnosticsLogicalContext.Set("TrackingId", trackingId);
-            
-            IocConfig.RegisterDependencies(app);
 
             ConfigureOAuth(app);
+
+            IocConfig.RegisterDependencies(app);
             
         }
     }

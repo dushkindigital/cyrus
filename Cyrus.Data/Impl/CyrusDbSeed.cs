@@ -27,7 +27,6 @@ namespace Cyrus.Data.Impl
                 applicationRoleManager.Create(role);
             }
 
-
             var user = applicationUserManager.FindByName(name);
             if (user == null)
             {
@@ -51,15 +50,15 @@ namespace Cyrus.Data.Impl
 
             var tribes = new List<Tribe>
             {
-                new Tribe{Name = "Alley Cats 0", Description = "Scrappy cats 0", UserId = 1, IsActive = true, IsPublic = false},
-                new Tribe{Name = "Alley Cats 1", Description = "Scrappy cats 1", UserId = 2, IsActive = true, IsPublic = false},
-                new Tribe{Name = "Alley Cats 2", Description = "Scrappy cats 2", UserId = 3, IsActive = true, IsPublic = false},
-                new Tribe{Name = "Alley Cats 3", Description = "Scrappy cats 3", UserId = 4, IsActive = true, IsPublic = false},
-                new Tribe{Name = "Alley Cats 4", Description = "Scrappy cats 4", UserId = 5, IsActive = true, IsPublic = false},
-                new Tribe{Name = "Alley Cats 5", Description = "Scrappy cats 5", UserId = 6, IsActive = true, IsPublic = false},
-                new Tribe{Name = "Alley Cats 6", Description = "Scrappy cats 6", UserId = 4, IsActive = true, IsPublic = false},
-                new Tribe{Name = "Alley Cats 7", Description = "Scrappy cats 7", UserId = 5, IsActive = true, IsPublic = false},
-                new Tribe{Name = "Alley Cats 8", Description = "Scrappy cats 8", UserId = 8, IsActive = true, IsPublic = false},
+                new Tribe{Name = "Alley Cats 0", Description = "Some very scrappy cats 0", UserId = 1, IsActive = true, IsPublic = false},
+                new Tribe{Name = "Alley Cats 1", Description = "Some very scrappy cats 1", UserId = 2, IsActive = true, IsPublic = false},
+                new Tribe{Name = "Alley Cats 2", Description = "Some very scrappy cats 2", UserId = 3, IsActive = true, IsPublic = false},
+                new Tribe{Name = "Alley Cats 3", Description = "Some very scrappy cats 3", UserId = 4, IsActive = true, IsPublic = false},
+                new Tribe{Name = "Alley Cats 4", Description = "Some very scrappy cats 4", UserId = 5, IsActive = true, IsPublic = false},
+                new Tribe{Name = "Alley Cats 5", Description = "Some very scrappy cats 5", UserId = 6, IsActive = true, IsPublic = false},
+                new Tribe{Name = "Alley Cats 6", Description = "Some very scrappy cats 6", UserId = 4, IsActive = true, IsPublic = false},
+                new Tribe{Name = "Alley Cats 7", Description = "Some very scrappy cats 7", UserId = 5, IsActive = true, IsPublic = false},
+                new Tribe{Name = "Alley Cats 8", Description = "Some very scrappy cats 8", UserId = 8, IsActive = true, IsPublic = false},
 
             };
 

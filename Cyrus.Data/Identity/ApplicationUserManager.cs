@@ -10,6 +10,7 @@ using Cyrus.Data.Identity.Models;
 using Microsoft.AspNet.Identity;
 using Cyrus.Core.Identity;
 using Microsoft.Owin.Security;
+using System.Security.Cryptography;
 
 namespace Cyrus.Data.Identity
 {
@@ -325,7 +326,7 @@ namespace Cyrus.Data.Identity
         {
             return await _authenticationManager.GetExternalIdentityAsync(externalAuthenticationType).ConfigureAwait(false);
         }
-
+        
         public virtual ApplicationExternalLoginInfo GetExternalLoginInfo()
         {
             return _authenticationManager.GetExternalLoginInfo().ToApplicationExternalLoginInfo();
